@@ -7,16 +7,15 @@
     <link rel="icon" type="image/png" href="logo.png">
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        /* Ensuring table borders print correctly in PDF */
-        table { border-collapse: collapse; border: none !important; }
-        th, td { border: 1px solid black; padding: 8px; }
+        /* Ensuring table borders collapse into single clean lines */
+        table { border-collapse: collapse; width: 100%; }
 
         /* Custom Fonts */
         .font-berlin { font-family: "Berlin Sans FB Demi", sans-serif; }
         .font-mvboli { font-family: "MV Boli", cursive; }
         .font-bellmt { font-family: "Bell MT", serif; }
 
-        /* Print Styles: Strict A4 locking to prevent 2nd page spillover */
+        /* Print Styles: Strict A4 locking */
         @media print {
             @page { size: A4 portrait; margin: 0; } 
             
@@ -75,27 +74,57 @@
             <div id="itemsContainer">
                 <div class="flex gap-2 mb-2 item-row">
                     <input type="text" placeholder="Description" class="item-desc flex-1 border border-gray-300 rounded-md p-2 text-sm" oninput="updatePreview()">
-                    <input type="number" placeholder="Unit" class="item-unit w-16 border border-gray-300 rounded-md p-2 text-sm" oninput="updatePreview()">
+                    <div class="flex items-center gap-1">
+                        <input type="number" placeholder="Qty" class="item-unit w-16 border border-gray-300 rounded-md p-2 text-sm" oninput="updatePreview()">
+                        <select class="item-uom border border-gray-300 rounded-md p-2 text-sm" onchange="updatePreview()">
+                            <option value="Sq. M">Sq. M</option>
+                            <option value="Sq. Ft">Sq. Ft</option>
+                        </select>
+                    </div>
                     <input type="number" placeholder="Rate" class="item-rate w-20 border border-gray-300 rounded-md p-2 text-sm" oninput="updatePreview()">
                 </div>
                 <div class="flex gap-2 mb-2 item-row">
                     <input type="text" placeholder="Description" class="item-desc flex-1 border border-gray-300 rounded-md p-2 text-sm" oninput="updatePreview()">
-                    <input type="number" placeholder="Unit" class="item-unit w-16 border border-gray-300 rounded-md p-2 text-sm" oninput="updatePreview()">
+                    <div class="flex items-center gap-1">
+                        <input type="number" placeholder="Qty" class="item-unit w-16 border border-gray-300 rounded-md p-2 text-sm" oninput="updatePreview()">
+                        <select class="item-uom border border-gray-300 rounded-md p-2 text-sm" onchange="updatePreview()">
+                            <option value="Sq. M">Sq. M</option>
+                            <option value="Sq. Ft">Sq. Ft</option>
+                        </select>
+                    </div>
                     <input type="number" placeholder="Rate" class="item-rate w-20 border border-gray-300 rounded-md p-2 text-sm" oninput="updatePreview()">
                 </div>
                 <div class="flex gap-2 mb-2 item-row">
                     <input type="text" placeholder="Description" class="item-desc flex-1 border border-gray-300 rounded-md p-2 text-sm" oninput="updatePreview()">
-                    <input type="number" placeholder="Unit" class="item-unit w-16 border border-gray-300 rounded-md p-2 text-sm" oninput="updatePreview()">
+                    <div class="flex items-center gap-1">
+                        <input type="number" placeholder="Qty" class="item-unit w-16 border border-gray-300 rounded-md p-2 text-sm" oninput="updatePreview()">
+                        <select class="item-uom border border-gray-300 rounded-md p-2 text-sm" onchange="updatePreview()">
+                            <option value="Sq. M">Sq. M</option>
+                            <option value="Sq. Ft">Sq. Ft</option>
+                        </select>
+                    </div>
                     <input type="number" placeholder="Rate" class="item-rate w-20 border border-gray-300 rounded-md p-2 text-sm" oninput="updatePreview()">
                 </div>
                 <div class="flex gap-2 mb-2 item-row">
                     <input type="text" placeholder="Description" class="item-desc flex-1 border border-gray-300 rounded-md p-2 text-sm" oninput="updatePreview()">
-                    <input type="number" placeholder="Unit" class="item-unit w-16 border border-gray-300 rounded-md p-2 text-sm" oninput="updatePreview()">
+                    <div class="flex items-center gap-1">
+                        <input type="number" placeholder="Qty" class="item-unit w-16 border border-gray-300 rounded-md p-2 text-sm" oninput="updatePreview()">
+                        <select class="item-uom border border-gray-300 rounded-md p-2 text-sm" onchange="updatePreview()">
+                            <option value="Sq. M">Sq. M</option>
+                            <option value="Sq. Ft">Sq. Ft</option>
+                        </select>
+                    </div>
                     <input type="number" placeholder="Rate" class="item-rate w-20 border border-gray-300 rounded-md p-2 text-sm" oninput="updatePreview()">
                 </div>
                 <div class="flex gap-2 mb-2 item-row">
                     <input type="text" placeholder="Description" class="item-desc flex-1 border border-gray-300 rounded-md p-2 text-sm" oninput="updatePreview()">
-                    <input type="number" placeholder="Unit" class="item-unit w-16 border border-gray-300 rounded-md p-2 text-sm" oninput="updatePreview()">
+                    <div class="flex items-center gap-1">
+                        <input type="number" placeholder="Qty" class="item-unit w-16 border border-gray-300 rounded-md p-2 text-sm" oninput="updatePreview()">
+                        <select class="item-uom border border-gray-300 rounded-md p-2 text-sm" onchange="updatePreview()">
+                            <option value="Sq. M">Sq. M</option>
+                            <option value="Sq. Ft">Sq. Ft</option>
+                        </select>
+                    </div>
                     <input type="number" placeholder="Rate" class="item-rate w-20 border border-gray-300 rounded-md p-2 text-sm" oninput="updatePreview()">
                 </div>
             </div>
@@ -149,11 +178,11 @@
                     <table class="w-full text-sm mb-8">
                         <thead class="font-bellmt">
                             <tr class="bg-gray-100">
-                                <th class="w-12 text-center">NO.</th>
-                                <th class="text-center">DESCRIPTION</th>
-                                <th class="w-20 text-center">UNIT</th>
-                                <th class="w-28 text-center">RATE</th>
-                                <th class="w-32 text-center">TOTAL</th>
+                                <th class="w-12 text-center border border-black py-2">NO.</th>
+                                <th class="text-center border border-black py-2">DESCRIPTION</th>
+                                <th class="w-32 text-center border border-black py-2">UNIT/AREA</th>
+                                <th class="w-28 text-center border border-black py-2">RATE</th>
+                                <th class="w-32 text-center border border-black py-2">TOTAL</th>
                             </tr>
                         </thead>
                         <tbody id="displayItems" class="font-mvboli text-base">
@@ -161,18 +190,18 @@
                         <tbody class="font-bellmt">
                             <tr>
                                 <td colspan="3" style="border: none !important; border-right: 1px solid black !important;"></td>
-                                <td class="font-bold text-center bg-gray-50" style="border: 1px solid black;">SUB-TOTAL</td>
-                                <td class="text-center font-bold" id="displaySubTotal" style="border: 1px solid black;">0.00</td>
+                                <td class="font-bold text-center bg-gray-50 text-lg py-2 whitespace-nowrap border border-black">SUB-TOTAL</td>
+                                <td class="text-center font-bold text-lg border border-black" id="displaySubTotal">0.00</td>
                             </tr>
                             <tr>
                                 <td colspan="3" style="border: none !important; border-right: 1px solid black !important;"></td>
-                                <td class="font-bold text-center bg-gray-50" style="border: 1px solid black;">GST 18%</td>
-                                <td class="text-center font-bold" id="displayGst" style="border: 1px solid black;">0.00</td>
+                                <td class="font-bold text-center bg-gray-50 text-lg py-2 whitespace-nowrap border border-black">GST 18%</td>
+                                <td class="text-center font-bold text-lg border border-black" id="displayGst">0.00</td>
                             </tr>
                             <tr>
                                 <td colspan="3" style="border: none !important; border-right: 1px solid black !important;"></td>
-                                <td class="font-bold text-center bg-gray-200" style="border: 1px solid black;">TOTAL</td>
-                                <td class="text-center font-bold bg-gray-200" id="displayTotal" style="border: 1px solid black;">0.00</td>
+                                <td class="font-bold text-center bg-gray-200 text-xl py-2 whitespace-nowrap border border-black">TOTAL</td>
+                                <td class="text-center font-bold bg-gray-200 text-xl border border-black" id="displayTotal">0.00</td>
                             </tr>
                         </tbody>
                     </table>
@@ -223,11 +252,21 @@
             row.className = 'flex gap-2 mb-2 item-row';
             row.innerHTML = `
                 <input type="text" placeholder="Description" class="item-desc flex-1 border border-gray-300 rounded-md p-2 text-sm" oninput="updatePreview()">
-                <input type="number" placeholder="Unit" class="item-unit w-16 border border-gray-300 rounded-md p-2 text-sm" oninput="updatePreview()">
+                <div class="flex items-center gap-1">
+                    <input type="number" placeholder="Qty" class="item-unit w-16 border border-gray-300 rounded-md p-2 text-sm" oninput="updatePreview()">
+                    <select class="item-uom border border-gray-300 rounded-md p-2 text-sm" onchange="updatePreview()">
+                        <option value="Sq. M">Sq. M</option>
+                        <option value="Sq. Ft">Sq. Ft</option>
+                    </select>
+                </div>
                 <input type="number" placeholder="Rate" class="item-rate w-20 border border-gray-300 rounded-md p-2 text-sm" oninput="updatePreview()">
             `;
             container.appendChild(row);
             updatePreview();
+        }
+
+        function formatNumber(num) {
+            return num.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
         }
 
         function updatePreview() {
@@ -245,11 +284,12 @@
             displayTable.innerHTML = ''; 
             
             let subTotal = 0;
-            let itemNumber = 1;
+            let slNo = 1;
 
             rows.forEach(row => {
                 const desc = row.querySelector('.item-desc').value;
                 const unitVal = row.querySelector('.item-unit').value;
+                const uomVal = row.querySelector('.item-uom').value;
                 const rateVal = row.querySelector('.item-rate').value;
                 
                 const unit = parseFloat(unitVal) || 0;
@@ -258,26 +298,29 @@
 
                 subTotal += total;
 
-                // Print the row to maintain structure
+                let currentSl = '';
+                if (desc || unitVal || rateVal) {
+                    currentSl = slNo++;
+                }
+
                 const tr = document.createElement('tr');
+                // Added border border-black directly to the generated cells to force lines to print
                 tr.innerHTML = `
-                    <td class="text-center h-8">${itemNumber}</td>
-                    <td>${desc}</td>
-                    <td class="text-center">${unitVal ? unit : ''}</td>
-                    <td class="text-center">${rateVal ? rate.toFixed(2) : ''}</td>
-                    <td class="text-center">${(unitVal && rateVal) ? total.toFixed(2) : ''}</td>
+                    <td class="text-center h-8 border border-black">${currentSl}</td>
+                    <td class="text-center border border-black">${desc}</td>
+                    <td class="text-center whitespace-nowrap border border-black">${unitVal ? unit + ' ' + uomVal : ''}</td>
+                    <td class="text-center border border-black">${rateVal ? formatNumber(rate) : ''}</td>
+                    <td class="text-center border border-black">${(unitVal && rateVal) ? formatNumber(total) : ''}</td>
                 `;
                 displayTable.appendChild(tr);
-                itemNumber++;
             });
 
             const gst = subTotal * 0.18;
             const finalTotal = subTotal + gst;
 
-            // Uses .toFixed(2) regardless of value to maintain 0.00 default
-            document.getElementById('displaySubTotal').innerText = subTotal.toFixed(2);
-            document.getElementById('displayGst').innerText = gst.toFixed(2);
-            document.getElementById('displayTotal').innerText = finalTotal.toFixed(2);
+            document.getElementById('displaySubTotal').innerText = subTotal > 0 ? formatNumber(subTotal) : '0.00';
+            document.getElementById('displayGst').innerText = gst > 0 ? formatNumber(gst) : '0.00';
+            document.getElementById('displayTotal').innerText = finalTotal > 0 ? formatNumber(finalTotal) : '0.00';
 
             handleMobileScaling(); 
         }
