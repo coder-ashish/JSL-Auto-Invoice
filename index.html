@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice Generator</title>
+    <link rel="icon" type="image/png" href="logo.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Ensuring table borders print correctly in PDF */
+        table, th, td { border: 1px solid black; border-collapse: collapse; }
+        th, td { padding: 8px; }
+
+        /* Print Styles: Strict A4 locking to prevent 2nd page spillover */
+        @media print {
+            @page { size: A4 portrait; margin: 0; } 
+            
+            body { background-color: white; margin: 0; padding: 0; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            .no-print { display: none !important; }
+            #preview-wrapper { overflow: visible !important; display: block !important; box-shadow: none !important; background: white !important; }
+            
+            #invoice-template { 
+                transform: none !important; 
+                width: 210mm !important; 
+                height: 296mm !important; 
+                max-height: 296mm !important; 
+                margin: 0 !important; 
+                padding: 12mm 15mm !important; 
+                box-sizing: border-box !important;
+                box-shadow: none !important; 
+                overflow: hidden !important; 
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-100 p-4 md:p-6 font-sans">
+
+    <div class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-6">
+        
+        <div class="bg-white p-6 rounded-lg shadow-md lg:col-span-4 h-fit no-print">
+            
+            <h2 class="text-xl font-bold mb-4">Invoice Details</h2>
+            
+            <div class="mb-4">
+                <label class="block text-sm font-bold text-gray-700">ISSUED TO:</label>
+                <input type="text" id="clientName" value="Jindal Stainless Limited" class="mt-1 block w-full border border-gray-300 rounded-md p-2" oninput="updatePreview()">
+            </div>
+
+            <div class="mb-4">
+                <label class="block text-sm font-bold text-gray-700">INVOICE NO:</label>
+                <input type="text" id="invoiceNum" value="#001" class="mt-1 block w-full border border-gray-300 rounded-md p-2" oninput="updatePreview()">
+            </div>
+
+            <div class="mb-4">
+                <label class="block text-sm font-bold text-gray-700">PO NO.:</label>
+                <input type="text" id="poNum" value="6200015420" class="mt-1 block w-full border border-gray-300 rounded-md p-2" oninput="updatePreview()">
+            </div>
+
+            <div class="mb-4">
+                <label class="block text-sm font-bold text-gray-700">SUPPLIER CODE:</label>
+                <input type="text" id="supplierCode" placeholder="Enter Supplier Code" class="mt-1 block w-full border border-gray-300 rounded-md p-2" oninput="updatePreview()">
+            </div>
+
+            <div class="mb-4">
+                <label class="block text-sm font-bold text-gray-700">DATE:</label>
+                <input type="date" id="invoiceDate" class="mt-1 block w-full border border-gray-300 rounded-md p-2" onchange="updatePreview()">
+            </div>
+
+            <h3 class="text-lg font-bold mt-6 mb-2">Line Items</h3>
+            <div id="itemsContainer">
+                <div class="flex gap-2 mb-2 item-row">
+                    <input type="text" placeholder="Description" value="MURAL PAINTING WORK" class="item-desc flex-1 border border-gray-300 rounded-md p-2 text-sm" oninput="updatePreview()">
+                    <input type="number" placeholder="Unit" class="item-unit w-16 border border-gray-300 rounded-md p-2 text-sm" oninput="updatePreview()">
+                    <input type="number" placeholder="Rate" class="item-rate w-20 border border-gray-300 rounded-md p-2 text-sm" oninput="updatePreview()">
+                </div>
+            </div>
+            
+            <button onclick="addItem()" class="text-blue-600 text-sm font-bold mb-4">+ Add Item</button>
+
+            <div class="mt-6 border-t pt-4">
+                <button onclick="window.print()" class="w-full bg-black text-white font-bold py-3 px-4 rounded-lg hover:bg-gray-800 transition shadow-lg">
+                    Generate PDF
+                </button>
+            </div>
+        </div>
+
+        <div class="lg:col-span-8">
+            <div class="mb-2 text-sm text-gray-500 font-semibold uppercase tracking-wide no-print">Live Preview</div>
+            
+            <div id="preview-wrapper" class="w-full overflow-hidden bg-gray-300 rounded-lg shadow-inner flex justify-center">
+                
+                <div id="invoice-template" class="bg-white pt-8 px-10 pb-10 text-black w-[800px] origin-top mx-auto flex flex-col box-border" style="height: 1131px;">
+                    
+                    <div class="flex justify-between items-center mb-1">
+                        <div class="text-left">
+                            <h1 class="text-2xl font-bold uppercase tracking-wide mb-2 text-gray-900" style="font-family: serif;">GOPAL ARTISTIC CREATIONS</h1>
+                            <p class="text-sm text-gray-800">C/O Gopal Krushna Jena,</p>
+                            <p class="text-sm text-gray-800">Plot no. 309/241, Khata no. 869,</p>
+                            <p class="text-sm text-gray-800">Adia, Bant, Bhadrak, Odisha - 756114</p>
+                            <p class="text-sm text-gray-800 font-medium mt-1">gopalartworks1@gmail.com | +91 98533 86074</p>
+                            <p class="text-sm text-gray-800 font-bold mt-1">GSTIN: 21BZOPJ9756L1ZO</p>
+                        </div>
+                        
+                        <div class="w-40 flex-shrink-0">
+                            <img src="logo.png" alt="Logo" class="w-full h-auto object-contain">
+                        </div>
+                    </div>
+
+                    <h1 class="text-4xl font-bold text-center mt-2 mb-4 underline decoration-2 underline-offset-4">INVOICE</h1>
+
+                    <div class="grid grid-cols-2 gap-4 mb-8 text-sm">
+                        <div>
+                            <p class="mb-1"><span class="font-bold">ISSUED TO:</span> <span id="displayClientName"></span></p>
+                            <p class="mb-1"><span class="font-bold">SUPPLIER CODE:</span> <span id="displaySupplierCode"></span></p>
+                            <p><span class="font-bold">DATE:</span> <span id="displayDate"></span></p>
+                        </div>
+                        <div class="text-right">
+                            <p class="mb-1"><span class="font-bold">INVOICE NO:</span> <span id="displayInvoiceNum">#001</span></p>
+                            <p class="mb-1"><span class="font-bold">PO NO:</span> <span id="displayPoNum"></span></p>
+                            <p><span class="font-bold">DUE DATE:</span> 30 Days</p>
+                        </div>
+                    </div>
+
+                    <table class="w-full text-sm mb-8">
+                        <thead>
+                            <tr class="bg-gray-100">
+                                <th class="w-12 text-center">NO.</th>
+                                <th class="text-center">DESCRIPTION</th>
+                                <th class="w-20 text-center">UNIT</th>
+                                <th class="w-28 text-center">RATE</th>
+                                <th class="w-32 text-center">TOTAL</th>
+                            </tr>
+                        </thead>
+                        <tbody id="displayItems">
+                        </tbody>
+                        <tbody>
+                            <tr>
+                                <td colspan="3" class="border-none"></td>
+                                <td class="font-bold text-center bg-gray-50">SUB-TOTAL</td>
+                                <td class="text-center font-bold" id="displaySubTotal">0.00</td>
+                            </tr>
+                            <tr>
+                                <td colspan="3" class="border-none"></td>
+                                <td class="font-bold text-center bg-gray-50">GST 18%</td>
+                                <td class="text-center font-bold" id="displayGst">0.00</td>
+                            </tr>
+                            <tr>
+                                <td colspan="3" class="border-none"></td>
+                                <td class="font-bold text-center bg-gray-200">TOTAL</td>
+                                <td class="text-center font-bold bg-gray-200" id="displayTotal">0.00</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="mt-auto text-sm">
+                        <p class="font-bold mb-2 underline">PAYMENT INFO:</p>
+                        <p class="font-bold">BANK OF BARODA</p>
+                        <p><span class="font-bold">ACCOUNT NAME:</span> GOPAL ARTISTIC CREATIONS</p>
+                        <p><span class="font-bold">ACCOUNT NUMBER:</span> </p>
+                        <p><span class="font-bold">IFCS CODE:</span> </p>
+                        <p><span class="font-bold">PAN:</span> BZOPJ9756L</p>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('invoiceDate').valueAsDate = new Date();
+
+        function handleMobileScaling() {
+            const wrapper = document.getElementById('preview-wrapper');
+            const template = document.getElementById('invoice-template');
+            
+            const wrapperWidth = wrapper.clientWidth;
+            const targetWidth = 800;
+
+            if (wrapperWidth < targetWidth) {
+                const scaleFactor = wrapperWidth / targetWidth;
+                template.style.transform = `scale(${scaleFactor})`;
+                wrapper.style.height = `${template.offsetHeight * scaleFactor}px`;
+            } else {
+                template.style.transform = 'scale(1)';
+                wrapper.style.height = 'auto';
+            }
+        }
+
+        window.addEventListener('load', () => {
+            updatePreview();
+            handleMobileScaling();
+        });
+        window.addEventListener('resize', handleMobileScaling);
+
+        function addItem() {
+            const container = document.getElementById('itemsContainer');
+            const row = document.createElement('div');
+            row.className = 'flex gap-2 mb-2 item-row';
+            row.innerHTML = `
+                <input type="text" placeholder="Description" class="item-desc flex-1 border border-gray-300 rounded-md p-2 text-sm" oninput="updatePreview()">
+                <input type="number" placeholder="Unit" class="item-unit w-16 border border-gray-300 rounded-md p-2 text-sm" oninput="updatePreview()">
+                <input type="number" placeholder="Rate" class="item-rate w-20 border border-gray-300 rounded-md p-2 text-sm" oninput="updatePreview()">
+            `;
+            container.appendChild(row);
+            updatePreview();
+        }
+
+        function updatePreview() {
+            document.getElementById('displayClientName').innerText = document.getElementById('clientName').value;
+            document.getElementById('displayInvoiceNum').innerText = document.getElementById('invoiceNum').value;
+            
+            // Map the new fields
+            document.getElementById('displayPoNum').innerText = document.getElementById('poNum').value;
+            document.getElementById('displaySupplierCode').innerText = document.getElementById('supplierCode').value;
+            
+            const dateVal = document.getElementById('invoiceDate').value;
+            document.getElementById('displayDate').innerText = dateVal ? new Date(dateVal).toLocaleDateString('en-IN') : '';
+
+            const rows = document.querySelectorAll('.item-row');
+            const displayTable = document.getElementById('displayItems');
+            displayTable.innerHTML = ''; 
+            
+            let subTotal = 0;
+            let itemNumber = 1;
+
+            rows.forEach(row => {
+                const desc = row.querySelector('.item-desc').value;
+                const unit = parseFloat(row.querySelector('.item-unit').value) || 0;
+                const rate = parseFloat(row.querySelector('.item-rate').value) || 0;
+                const total = unit * rate;
+
+                if (desc || total > 0) {
+                    subTotal += total;
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td class="text-center">${itemNumber}</td>
+                        <td>${desc}</td>
+                        <td class="text-center">${unit}</td>
+                        <td class="text-center">${rate.toFixed(2)}</td>
+                        <td class="text-center">${total.toFixed(2)}</td>
+                    `;
+                    displayTable.appendChild(tr);
+                    itemNumber++;
+                }
+            });
+
+            const gst = subTotal * 0.18;
+            const finalTotal = subTotal + gst;
+
+            document.getElementById('displaySubTotal').innerText = subTotal.toFixed(2);
+            document.getElementById('displayGst').innerText = gst.toFixed(2);
+            document.getElementById('displayTotal').innerText = finalTotal.toFixed(2);
+
+            handleMobileScaling(); 
+        }
+    </script>
+</body>
+  </html>
