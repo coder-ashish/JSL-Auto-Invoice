@@ -8,8 +8,13 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         /* Ensuring table borders print correctly in PDF */
-        table, th, td { border: 1px solid black; border-collapse: collapse; }
-        th, td { padding: 8px; }
+        table { border-collapse: collapse; border: none !important; }
+        th, td { border: 1px solid black; padding: 8px; }
+
+        /* Custom Fonts */
+        .font-berlin { font-family: "Berlin Sans FB Demi", sans-serif; }
+        .font-mvboli { font-family: "MV Boli", cursive; }
+        .font-bellmt { font-family: "Bell MT", serif; }
 
         /* Print Styles: Strict A4 locking to prevent 2nd page spillover */
         @media print {
@@ -69,7 +74,27 @@
             <h3 class="text-lg font-bold mt-6 mb-2">Line Items</h3>
             <div id="itemsContainer">
                 <div class="flex gap-2 mb-2 item-row">
-                    <input type="text" placeholder="Description" value="MURAL PAINTING WORK" class="item-desc flex-1 border border-gray-300 rounded-md p-2 text-sm" oninput="updatePreview()">
+                    <input type="text" placeholder="Description" class="item-desc flex-1 border border-gray-300 rounded-md p-2 text-sm" oninput="updatePreview()">
+                    <input type="number" placeholder="Unit" class="item-unit w-16 border border-gray-300 rounded-md p-2 text-sm" oninput="updatePreview()">
+                    <input type="number" placeholder="Rate" class="item-rate w-20 border border-gray-300 rounded-md p-2 text-sm" oninput="updatePreview()">
+                </div>
+                <div class="flex gap-2 mb-2 item-row">
+                    <input type="text" placeholder="Description" class="item-desc flex-1 border border-gray-300 rounded-md p-2 text-sm" oninput="updatePreview()">
+                    <input type="number" placeholder="Unit" class="item-unit w-16 border border-gray-300 rounded-md p-2 text-sm" oninput="updatePreview()">
+                    <input type="number" placeholder="Rate" class="item-rate w-20 border border-gray-300 rounded-md p-2 text-sm" oninput="updatePreview()">
+                </div>
+                <div class="flex gap-2 mb-2 item-row">
+                    <input type="text" placeholder="Description" class="item-desc flex-1 border border-gray-300 rounded-md p-2 text-sm" oninput="updatePreview()">
+                    <input type="number" placeholder="Unit" class="item-unit w-16 border border-gray-300 rounded-md p-2 text-sm" oninput="updatePreview()">
+                    <input type="number" placeholder="Rate" class="item-rate w-20 border border-gray-300 rounded-md p-2 text-sm" oninput="updatePreview()">
+                </div>
+                <div class="flex gap-2 mb-2 item-row">
+                    <input type="text" placeholder="Description" class="item-desc flex-1 border border-gray-300 rounded-md p-2 text-sm" oninput="updatePreview()">
+                    <input type="number" placeholder="Unit" class="item-unit w-16 border border-gray-300 rounded-md p-2 text-sm" oninput="updatePreview()">
+                    <input type="number" placeholder="Rate" class="item-rate w-20 border border-gray-300 rounded-md p-2 text-sm" oninput="updatePreview()">
+                </div>
+                <div class="flex gap-2 mb-2 item-row">
+                    <input type="text" placeholder="Description" class="item-desc flex-1 border border-gray-300 rounded-md p-2 text-sm" oninput="updatePreview()">
                     <input type="number" placeholder="Unit" class="item-unit w-16 border border-gray-300 rounded-md p-2 text-sm" oninput="updatePreview()">
                     <input type="number" placeholder="Rate" class="item-rate w-20 border border-gray-300 rounded-md p-2 text-sm" oninput="updatePreview()">
                 </div>
@@ -93,8 +118,8 @@
                     
                     <div class="flex justify-between items-center mb-1">
                         <div class="text-left">
-                            <h1 class="text-2xl font-bold uppercase tracking-wide mb-2 text-gray-900" style="font-family: serif;">GOPAL ARTISTIC CREATIONS</h1>
-                            <p class="text-sm text-gray-800">C/O Gopal Krushna Jena,</p>
+                            <h1 class="text-3xl font-bold uppercase tracking-wide mb-0 text-gray-900" style="font-family: serif;">GOPAL ARTISTIC CREATIONS</h1>
+                            <p class="text-sm text-gray-800 mt-1">C/O Gopal Krushna Jena,</p>
                             <p class="text-sm text-gray-800">Plot no. 309/241, Khata no. 869,</p>
                             <p class="text-sm text-gray-800">Adia, Bant, Bhadrak, Odisha - 756114</p>
                             <p class="text-sm text-gray-800 font-medium mt-1">gopalartworks1@gmail.com | +91 98533 86074</p>
@@ -106,23 +131,23 @@
                         </div>
                     </div>
 
-                    <h1 class="text-4xl font-bold text-center mt-2 mb-4 underline decoration-2 underline-offset-4">INVOICE</h1>
+                    <h1 class="text-4xl font-berlin font-bold text-center mt-2 mb-4 underline decoration-2 underline-offset-4">INVOICE</h1>
 
                     <div class="grid grid-cols-2 gap-4 mb-8 text-sm">
                         <div>
-                            <p class="mb-1"><span class="font-bold">ISSUED TO:</span> <span id="displayClientName"></span></p>
-                            <p class="mb-1"><span class="font-bold">SUPPLIER CODE:</span> <span id="displaySupplierCode"></span></p>
-                            <p><span class="font-bold">DATE:</span> <span id="displayDate"></span></p>
+                            <p class="mb-1"><span class="font-bold">ISSUED TO:</span> <span id="displayClientName" class="font-mvboli text-base"></span></p>
+                            <p class="mb-1"><span class="font-bold">SUPPLIER CODE:</span> <span id="displaySupplierCode" class="font-mvboli text-base"></span></p>
+                            <p><span class="font-bold">DATE:</span> <span id="displayDate" class="font-mvboli text-base"></span></p>
                         </div>
                         <div class="text-right">
-                            <p class="mb-1"><span class="font-bold">INVOICE NO:</span> <span id="displayInvoiceNum">#001</span></p>
-                            <p class="mb-1"><span class="font-bold">PO NO:</span> <span id="displayPoNum"></span></p>
-                            <p><span class="font-bold">DUE DATE:</span> 30 Days</p>
+                            <p class="mb-1"><span class="font-bold">INVOICE NO:</span> <span id="displayInvoiceNum" class="font-mvboli text-base"></span></p>
+                            <p class="mb-1"><span class="font-bold">PO NO:</span> <span id="displayPoNum" class="font-mvboli text-base"></span></p>
+                            <p><span class="font-bold">DUE DATE:</span> <span class="font-mvboli text-base">30 Days</span></p>
                         </div>
                     </div>
 
                     <table class="w-full text-sm mb-8">
-                        <thead>
+                        <thead class="font-bellmt">
                             <tr class="bg-gray-100">
                                 <th class="w-12 text-center">NO.</th>
                                 <th class="text-center">DESCRIPTION</th>
@@ -131,23 +156,23 @@
                                 <th class="w-32 text-center">TOTAL</th>
                             </tr>
                         </thead>
-                        <tbody id="displayItems">
+                        <tbody id="displayItems" class="font-mvboli text-base">
                         </tbody>
-                        <tbody>
+                        <tbody class="font-bellmt">
                             <tr>
-                                <td colspan="3" class="border-none"></td>
-                                <td class="font-bold text-center bg-gray-50">SUB-TOTAL</td>
-                                <td class="text-center font-bold" id="displaySubTotal">0.00</td>
+                                <td colspan="3" style="border: none !important; border-right: 1px solid black !important;"></td>
+                                <td class="font-bold text-center bg-gray-50" style="border: 1px solid black;">SUB-TOTAL</td>
+                                <td class="text-center font-bold" id="displaySubTotal" style="border: 1px solid black;">0.00</td>
                             </tr>
                             <tr>
-                                <td colspan="3" class="border-none"></td>
-                                <td class="font-bold text-center bg-gray-50">GST 18%</td>
-                                <td class="text-center font-bold" id="displayGst">0.00</td>
+                                <td colspan="3" style="border: none !important; border-right: 1px solid black !important;"></td>
+                                <td class="font-bold text-center bg-gray-50" style="border: 1px solid black;">GST 18%</td>
+                                <td class="text-center font-bold" id="displayGst" style="border: 1px solid black;">0.00</td>
                             </tr>
                             <tr>
-                                <td colspan="3" class="border-none"></td>
-                                <td class="font-bold text-center bg-gray-200">TOTAL</td>
-                                <td class="text-center font-bold bg-gray-200" id="displayTotal">0.00</td>
+                                <td colspan="3" style="border: none !important; border-right: 1px solid black !important;"></td>
+                                <td class="font-bold text-center bg-gray-200" style="border: 1px solid black;">TOTAL</td>
+                                <td class="text-center font-bold bg-gray-200" id="displayTotal" style="border: 1px solid black;">0.00</td>
                             </tr>
                         </tbody>
                     </table>
@@ -209,7 +234,6 @@
             document.getElementById('displayClientName').innerText = document.getElementById('clientName').value;
             document.getElementById('displayInvoiceNum').innerText = document.getElementById('invoiceNum').value;
             
-            // Map the new fields
             document.getElementById('displayPoNum').innerText = document.getElementById('poNum').value;
             document.getElementById('displaySupplierCode').innerText = document.getElementById('supplierCode').value;
             
@@ -225,28 +249,32 @@
 
             rows.forEach(row => {
                 const desc = row.querySelector('.item-desc').value;
-                const unit = parseFloat(row.querySelector('.item-unit').value) || 0;
-                const rate = parseFloat(row.querySelector('.item-rate').value) || 0;
+                const unitVal = row.querySelector('.item-unit').value;
+                const rateVal = row.querySelector('.item-rate').value;
+                
+                const unit = parseFloat(unitVal) || 0;
+                const rate = parseFloat(rateVal) || 0;
                 const total = unit * rate;
 
-                if (desc || total > 0) {
-                    subTotal += total;
-                    const tr = document.createElement('tr');
-                    tr.innerHTML = `
-                        <td class="text-center">${itemNumber}</td>
-                        <td>${desc}</td>
-                        <td class="text-center">${unit}</td>
-                        <td class="text-center">${rate.toFixed(2)}</td>
-                        <td class="text-center">${total.toFixed(2)}</td>
-                    `;
-                    displayTable.appendChild(tr);
-                    itemNumber++;
-                }
+                subTotal += total;
+
+                // Print the row to maintain structure
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td class="text-center h-8">${itemNumber}</td>
+                    <td>${desc}</td>
+                    <td class="text-center">${unitVal ? unit : ''}</td>
+                    <td class="text-center">${rateVal ? rate.toFixed(2) : ''}</td>
+                    <td class="text-center">${(unitVal && rateVal) ? total.toFixed(2) : ''}</td>
+                `;
+                displayTable.appendChild(tr);
+                itemNumber++;
             });
 
             const gst = subTotal * 0.18;
             const finalTotal = subTotal + gst;
 
+            // Uses .toFixed(2) regardless of value to maintain 0.00 default
             document.getElementById('displaySubTotal').innerText = subTotal.toFixed(2);
             document.getElementById('displayGst').innerText = gst.toFixed(2);
             document.getElementById('displayTotal').innerText = finalTotal.toFixed(2);
@@ -255,4 +283,4 @@
         }
     </script>
 </body>
-  </html>
+</html>
